@@ -1,0 +1,22 @@
+name = "grok-web-app"
+compatibility_date = "2024-03-18"
+compatibility_flags = ["nodejs_compat"]
+
+# Build output directory
+pages_build_output_dir = ".vercel/output/static"
+
+# Cloudflare D1 veritabanı yapılandırması
+[[d1_databases]]
+binding = "DB"
+database_name = "grok_db"
+database_id = "77ec672e-0931-47c6-9659-9fa1e92e9486"
+
+# Cloudflare KV önbellek yapılandırması
+[[kv_namespaces]]
+binding = "CACHE"
+id = "49f580e24f2a49f4bb915a975d2d6af6"
+
+# Environment variables
+[vars]
+NODE_ENV = "production"
+JWT_SECRET = "your-production-jwt-secret-here" 

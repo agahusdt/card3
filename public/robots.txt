@@ -1,0 +1,6 @@
+   # Main configuration for grokcoinsale.com
+   User-agent: *
+   Allow: /
+   Disallow: /admin/
+
+   Sitemap: https://www.grokcoinsale.com/sitemap.xml
