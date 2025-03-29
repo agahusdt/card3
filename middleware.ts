@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import * as jose from 'jose';
 import { jwtHelpers } from './lib/auth';
 
-export const runtime = 'edge';
+export const runtime = 'experimental-edge';
 
 // Run middleware on all routes except static files
 export const config = {
