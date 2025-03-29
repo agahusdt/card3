@@ -2,6 +2,11 @@
  * Cloudflare context'i için yardımcı fonksiyonlar
  */
 
+// Global değişken olarak Cloudflare environment'ına erişim (Cloudflare Workers/Pages'te çalışır)
+declare global {
+  var env: any;
+}
+
 /**
  * Cloudflare Environment'ını güvenli bir şekilde elde eder
  */
@@ -9,9 +14,10 @@ export async function getCloudflareContext() {
   // Cloudflare Pages ortamında erişilebilen environment değişkenlerini döndür
   return {
     env: {
-      // Burada process.env'den veya diğer kaynaklardan ortam değişkenlerini ekleyin
-      JWT_SECRET: process.env.JWT_SECRET || 'default-secret',
-      // Diğer Cloudflare environment değişkenleri buraya eklenebilir
+      // Cloudflare environment değişkenlerine doğru şekilde erişim sağla
+      JWT_SECRET: global.env?.JWT_SECRET || process.env.JWT_SECRET || 'default-secret',
+      DB: global.env?.DB || null,
+      CACHE: global.env?.CACHE || null
     }
   };
 }
