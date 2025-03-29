@@ -27,13 +27,9 @@ export async function POST(request: Request) {
     // D1 veritabanı bağlantısını al
     const dbInstance = getDB(env);
     
-    // Admins ayrı bir tablo olarak tanımlanmamış, users tablosunu kullan
-    // ve role='ADMIN' olan kullanıcıları bul
-    const admin = await dbInstance.query.users.findFirst({
-      where: (users, { eq, and }) => and(
-        eq(users.apiKey, apiKey),
-        eq(users.role, 'ADMIN')
-      )
+    // Artık admins tablosu schema'da tanımlı
+    const admin = await dbInstance.query.admins.findFirst({
+      where: (admins, { eq }) => eq(admins.apiKey, apiKey)
     });
 
     if (!admin) {

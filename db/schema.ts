@@ -17,6 +17,15 @@ export const users = sqliteTable('users', {
   apiKey: text('api_key').unique(), // Admin kullanıcıları için
 });
 
+// Admins tablosu - Veritabanında var olan tablo
+export const admins = sqliteTable('admins', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  apiKey: text('api_key').notNull().unique(),
+  role: text('role').notNull().default('ADMIN'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().defaultNow()
+});
+
 // Transaction tablosu
 export const transactions = sqliteTable('transactions', {
   id: text('id').primaryKey(),
