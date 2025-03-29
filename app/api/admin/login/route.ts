@@ -27,12 +27,13 @@ export async function POST(request: Request) {
     // D1 veritabanı bağlantısını al
     const dbInstance = getDB(env);
     
-    // Tip sorunlarını önlemek için any kullan
-    const adminsTable = schema.admins as any;
-    
-    // Find admin by API key
-    const admin = await dbInstance.query.admins.findFirst({
-      where: (admins, { eq }) => eq(admins.apiKey, apiKey)
+    // Admins ayrı bir tablo olarak tanımlanmamış, users tablosunu kullan
+    // ve role='ADMIN' olan kullanıcıları bul
+    const admin = await dbInstance.query.users.findFirst({
+      where: (users, { eq, and }) => and(
+        eq(users.apiKey, apiKey),
+        eq(users.role, 'ADMIN')
+      )
     });
 
     if (!admin) {
