@@ -11,7 +11,7 @@ import { eq } from 'drizzle-orm';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const body = await request.json() as Record<string, any>;
     const { apiKey } = body;
 
     if (!apiKey) {

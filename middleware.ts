@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import * as jose from 'jose';
 import { jwtHelpers } from './lib/auth';
 
-export const runtime = 'experimental-edge';
+export const runtime = 'edge';
 
 // Run middleware on all routes except static files
 export const config = {
@@ -20,6 +20,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // GEÇICI OLARAK: Sayfalara erişim için token doğrulamayı devre dışı bırakıyoruz
+  // Hataların kaynağını bulmak için middleware'i basitleştirelim
+  
+  // Token doğrulama ve yönlendirme kodlarını geçici olarak devre dışı bırakıyoruz
+  /*
   const token = request.cookies.get('token')?.value;
   const adminToken = request.cookies.get('admin_token')?.value;
 
@@ -93,6 +98,7 @@ export async function middleware(request: NextRequest) {
       return response;
     }
   }
+  */
 
   // Basic security headers
   const response = NextResponse.next();

@@ -2,22 +2,30 @@
  * Cloudflare context'i için yardımcı fonksiyonlar
  */
 
-// Global değişken olarak Cloudflare environment'ına erişim (Cloudflare Workers/Pages'te çalışır)
-declare global {
-  var env: any;
-}
-
 /**
  * Cloudflare Environment'ını güvenli bir şekilde elde eder
  */
 export async function getCloudflareContext() {
-  // Cloudflare Pages ortamında erişilebilen environment değişkenlerini döndür
+  // Cloudflare Pages/Workers ortamında çalışırken doğru env erişimi
+  if (typeof globalThis.process === 'undefined') {
+    // Cloudflare Pages/Workers ortamındayız
+    return {
+      env: {
+        // Bu, Cloudflare Pages/Workers ortamında env değişkenlerine erişir
+        JWT_SECRET: globalThis.JWT_SECRET || 'default-secret',
+        DB: globalThis.DB || null,
+        CACHE: globalThis.CACHE || null
+      }
+    };
+  }
+  
+  // Node.js ortamında çalışırken (development)
   return {
     env: {
-      // Cloudflare environment değişkenlerine doğru şekilde erişim sağla
-      JWT_SECRET: global.env?.JWT_SECRET || process.env.JWT_SECRET || 'default-secret',
-      DB: global.env?.DB || null,
-      CACHE: global.env?.CACHE || null
+      JWT_SECRET: process.env.JWT_SECRET || 'default-secret',
+      // Diğer çevresel değişkenler
+      DB: null,
+      CACHE: null
     }
   };
 }
